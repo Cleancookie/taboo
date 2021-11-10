@@ -17,6 +17,17 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <span class="card-title">{{ $card->name  }}</span>
+                    <ul>
+                        @foreach ($card->banned_words as $word)
+                            <li>{{ $word }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
