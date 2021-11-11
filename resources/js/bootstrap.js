@@ -29,13 +29,33 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+import Echo from 'laravel-echo';
 
-// window.Pusher = require('pusher-js');
+window.Pusher = require('pusher-js');
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});
+
+const roomId = document.querySelector('.js-room-id').value;
+if (roomId) {
+    window.Echo.private(`Room.${roomId}`).listen('ScoreUpdatedEvent', (e) => {
+        document.querySelector('.js-score').innerHTML = e.room.score;
+    });
+
+    $('.js-guess-form').on('submit', (e) => {
+        e.preventDefault();
+        const guess = document.querySelector('.js-guess').value;
+        axios({
+            method: 'POST',
+            url: `/room/${roomId}/guess`,
+            data: {guess: guess},
+        }).then(() => {
+            document.querySelector('.js-guess').value = '';
+        });
+    })
+}
+

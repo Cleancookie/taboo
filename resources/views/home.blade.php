@@ -1,22 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    <input type="hidden" class="hidden js-room-id" value="{{$room->id}}">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
 
             <div class="card">
                 <div class="card-body">
@@ -27,6 +15,16 @@
                         @endforeach
                     </ul>
                 </div>
+            </div>
+
+            <div>
+                <form action="#" class="form js-guess-form">
+                    <div>Guess: <input type="text" class="js-guess"></div>
+                    <button class="btn btn-success">Guess!</button>
+                </form>
+                <div>Score: <span class="js-score">null</span></div>
+                <button class="btn btn-primary">Correct</button>
+                <button class="btn btn-danger">Skip</button>
             </div>
         </div>
     </div>
