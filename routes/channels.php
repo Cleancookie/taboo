@@ -18,5 +18,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('Room.{id}', function ($user, $id) {
+    // Todo: check $user is in $room;
     return true;
 });

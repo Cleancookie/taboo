@@ -6,25 +6,30 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-body">
-                    <span class="card-title">{{ $card->name  }}</span>
-                    <ul>
+                    <span class="card-title js-card-name">{{ $card->name  }}</span>
+                    <ul class="js-banned-words-container">
                         @foreach ($card->banned_words as $word)
                             <li>{{ $word }}</li>
                         @endforeach
                     </ul>
                 </div>
+                <div class="card-footer">
+                    <button class="js-new-card btn btn-danger container-fluid">get me a new word 😖</button>
+                </div>
             </div>
 
-            <div>
-                <form action="#" class="form js-guess-form">
-                    <div>Guess: <input type="text" class="js-guess"></div>
-                    <button class="btn btn-success">Guess!</button>
-                </form>
-                <div>Score: <span class="js-score">null</span></div>
-                <button class="btn btn-primary">Correct</button>
-                <button class="btn btn-danger">Skip</button>
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Score: <span class="js-score">null</span></h2>
+                </div>
+                <div class="card-body">
+                    <form action="#" class="form js-guess-form">
+                        <div class="form-group">Guess: <input type="text" class="js-guess form-control"></div>
+                        <button type="submit" class="btn btn-success">Guess!</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

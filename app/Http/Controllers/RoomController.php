@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewCardEvent;
 use App\Events\ScoreUpdatedEvent;
 use App\Models\Card;
 use App\Models\Room;
@@ -11,9 +12,8 @@ class RoomController extends Controller
 {
     public function show(Room $room)
     {
-        $card = Card::all()->random();
         return view('home', [
-            'card' => $card,
+            'card' => $room->card,
             'room' => $room,
         ]);
     }
@@ -24,6 +24,16 @@ class RoomController extends Controller
         $room->save();
         $room->refresh();
         ScoreUpdatedEvent::dispatch($room);
+        return $room;
+    }
+
+    public function newCard(Room $room)
+    {
+        // todo optimise this by counting and then getting selecting from card where id > x
+        $room->card_id = Card::query()->select(['id'])->get()->random()->id;
+        $room->save();
+        $room->refresh();
+        NewCardEvent::dispatch($room);
         return $room;
     }
 }

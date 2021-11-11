@@ -42,9 +42,20 @@ window.Echo = new Echo({
 
 const roomId = document.querySelector('.js-room-id').value;
 if (roomId) {
-    window.Echo.private(`Room.${roomId}`).listen('ScoreUpdatedEvent', (e) => {
-        document.querySelector('.js-score').innerHTML = e.room.score;
-    });
+    window.Echo.private(`Room.${roomId}`)
+        .listen('ScoreUpdatedEvent', (data) => {
+            console.log('score updated event')
+            document.querySelector('.js-score').innerHTML = data.room.score;
+        })
+        .listen('NewCardEvent', (data) => {
+            console.log('new card event')
+            const card = data.card;
+            document.querySelector('.js-card-name').innerHTML = card.name;
+            document.querySelector('.js-banned-words-container').innerHTML = card.banned_words.map((banned_word) => {
+                return `<li>${banned_word}</li>`;
+            }).join('');
+        })
+    ;
 
     $('.js-guess-form').on('submit', (e) => {
         e.preventDefault();
@@ -55,6 +66,13 @@ if (roomId) {
             data: {guess: guess},
         }).then(() => {
             document.querySelector('.js-guess').value = '';
+        });
+    })
+
+    $('.js-new-card').on('click', (e) => {
+        axios({
+            method: 'POST',
+            url: `/room/${roomId}/new-card`,
         });
     })
 }

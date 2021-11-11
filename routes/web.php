@@ -24,6 +24,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/room/{room}', [\App\Http\Controllers\RoomController::class, 'show']);
 Route::post('/room/{room}/guess', [\App\Http\Controllers\RoomController::class, 'guess']);
+Route::post('/room/{room}/new-card', [\App\Http\Controllers\RoomController::class, 'newCard']);
 
 Route::get('/test/{id}', function(Request $request) {
     ScoreUpdatedEvent::dispatch(

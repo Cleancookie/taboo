@@ -17,6 +17,7 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->string('name')->default('The fun house');
             $table->integer('score')->default(0);
+            $table->foreignIdFor(\App\Models\Card::class)->nullable();
             $table->timestamps();
         });
     }
