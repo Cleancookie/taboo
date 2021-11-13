@@ -7,10 +7,12 @@
         <div class="col-md-8">
 
             <div class="card mb-3">
+                <div class="card-header text-center">
+                    <h2 class="js-card-name">{{ $card?->name ?? 'No card loaded' }}</h2>
+                </div>
                 <div class="card-body">
-                    <span class="card-title js-card-name">{{ $card->name  }}</span>
                     <ul class="js-banned-words-container">
-                        @foreach ($card->banned_words as $word)
+                        @foreach ($card?->banned_words ?? [] as $word)
                             <li>{{ $word }}</li>
                         @endforeach
                     </ul>

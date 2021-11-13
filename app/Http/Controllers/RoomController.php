@@ -10,9 +10,16 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
+    public function index()
+    {
+        return view('room.index', [
+            'rooms' => Room::all(),
+        ]);
+    }
+
     public function show(Room $room)
     {
-        return view('home', [
+        return view('room.show', [
             'card' => $room->card,
             'room' => $room,
         ]);
