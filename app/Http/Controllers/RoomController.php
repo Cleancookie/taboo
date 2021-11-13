@@ -25,13 +25,17 @@ class RoomController extends Controller
         ]);
     }
 
-    public function guess(Room $room)
+    public function guess(Request $request, Room $room)
     {
-        $room->score++;
-        $room->save();
-        $room->refresh();
+        $guess = $request->get('guess', '');
+        if ($room->card->name === $guess) {
+            $room->score++;
+            $room->card_id = Card::query()->select(['id'])->get()->random()->id;
+            $room->save();
+            $room->refresh();
+            NewCardEvent::dispatch($room);
+        }
         ScoreUpdatedEvent::dispatch($room);
-        return $room;
     }
 
     public function newCard(Room $room)
@@ -41,6 +45,5 @@ class RoomController extends Controller
         $room->save();
         $room->refresh();
         NewCardEvent::dispatch($room);
-        return $room;
     }
 }

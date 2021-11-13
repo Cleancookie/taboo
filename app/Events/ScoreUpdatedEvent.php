@@ -37,7 +37,8 @@ class ScoreUpdatedEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'room' => $this->room->toArray()
+            'room' => $this->room->toArray(),
+            'card' => $this->room->card->toArray(),
         ];
     }
 }
