@@ -24,26 +24,4 @@ class RoomController extends Controller
             'room' => $room,
         ]);
     }
-
-    public function guess(Request $request, Room $room)
-    {
-        $guess = $request->get('guess', '');
-        if ($room->card->name === $guess) {
-            $room->score++;
-            $room->card_id = Card::query()->select(['id'])->get()->random()->id;
-            $room->save();
-            $room->refresh();
-            NewCardEvent::dispatch($room);
-        }
-        ScoreUpdatedEvent::dispatch($room);
-    }
-
-    public function newCard(Room $room)
-    {
-        // todo optimise this by counting and then getting selecting from card where id > x
-        $room->card_id = Card::query()->select(['id'])->get()->random()->id;
-        $room->save();
-        $room->refresh();
-        NewCardEvent::dispatch($room);
-    }
 }

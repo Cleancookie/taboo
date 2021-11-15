@@ -44,36 +44,13 @@ const roomId = document.querySelector('.js-room-id').value;
 if (roomId) {
     window.Echo.private(`Room.${roomId}`)
         .listen('ScoreUpdatedEvent', (data) => {
-            console.log('score updated event')
-            document.querySelector('.js-score').innerHTML = data.room.score;
+            console.log('ScoreUpdatedEvent')
+            window.Livewire.emitTo('play-area', 'refreshScore')
         })
         .listen('NewCardEvent', (data) => {
-            console.log('new card event')
-            const card = data.card;
-            document.querySelector('.js-card-name').innerHTML = card.name;
-            document.querySelector('.js-banned-words-container').innerHTML = card.banned_words.map((banned_word) => {
-                return `<li>${banned_word}</li>`;
-            }).join('');
+            console.log('NewCardEvent')
+            window.Livewire.emitTo('lw-card', 'refreshCard')
         })
     ;
-
-    $('.js-guess-form').on('submit', (e) => {
-        e.preventDefault();
-        const guess = document.querySelector('.js-guess').value;
-        axios({
-            method: 'POST',
-            url: `/room/${roomId}/guess`,
-            data: {guess: guess},
-        }).then(() => {
-            document.querySelector('.js-guess').value = '';
-        });
-    })
-
-    $('.js-new-card').on('click', (e) => {
-        axios({
-            method: 'POST',
-            url: `/room/${roomId}/new-card`,
-        });
-    })
 }
 
