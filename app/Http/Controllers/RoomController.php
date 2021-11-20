@@ -12,14 +12,14 @@ class RoomController extends Controller
 {
     public function index()
     {
-        return view('room.index', [
+        return view('Room.index', [
             'rooms' => Room::all(),
         ]);
     }
 
     public function show(Room $room)
     {
-        return view('room.show', [
+        return view('Room.show', [
             'card' => $room->card,
             'room' => $room,
         ]);
