@@ -22,13 +22,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
-Route::get('/room', [\App\Http\Controllers\RoomController::class, 'index'])->name('home');
-Route::get('/room/{room}', [\App\Http\Controllers\RoomController::class, 'show'])->name('room.show');
-Route::post('/room/{room}/guess', [\App\Http\Controllers\RoomController::class, 'guess'])->name('room.guess');
-Route::post('/room/{room}/new-card', [\App\Http\Controllers\RoomController::class, 'newCard'])->name('room.new-card');
 
-Route::get('/test/{id}', function(Request $request) {
-    ScoreUpdatedEvent::dispatch(
-        \App\Models\Room::query()->where('id', ($request->get('id', 1)))->first()
-    );
+Route::middleware(['auth'])->group(function () {
+    Route::get('/room', [\App\Http\Controllers\RoomController::class, 'index'])->name('home');
+    Route::get('/room/{room}', [\App\Http\Controllers\RoomController::class, 'show'])->name('room.show');
+    Route::post('/room/{room}/guess', [\App\Http\Controllers\RoomController::class, 'guess'])->name('room.guess');
+    Route::post('/room/{room}/new-card', [\App\Http\Controllers\RoomController::class, 'newCard'])->name('room.new-card');
 });

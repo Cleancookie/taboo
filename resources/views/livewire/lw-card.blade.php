@@ -10,8 +10,5 @@
                 @endforeach
             </ul>
         </div>
-        <div class="card-footer">
-            <button wire:click="drawNewCard">get me a new word 😖</button>
-        </div>
     </div>
 </div>

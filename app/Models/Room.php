@@ -13,4 +13,14 @@ class Room extends Model
     {
         return $this->belongsTo(Card::class);
     }
+
+    public function guessers()
+    {
+        return $this->belongsToMany(User::class, 'guessers');
+    }
+
+    public function speakers()
+    {
+        return $this->belongsToMany(User::class, 'speakers');
+    }
 }

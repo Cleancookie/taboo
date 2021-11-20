@@ -41,4 +41,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isGuesserFor(Room $room)
+    {
+        return $room->guessers?->pluck('id')->contains($this->id);
+    }
+
+    public function isSpeakerFor(Room $room)
+    {
+        return $room->speakers?->pluck('id')->contains($this->id);
+    }
+
 }
